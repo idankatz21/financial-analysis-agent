@@ -24,15 +24,13 @@ export default function App() {
       const event = JSON.parse(e.data)
 
       if (event.type === 'tool_call') {
-        if (event.tool === 'get_stock_overview')
-          setSteps(s => ({ ...s, overview: 'running' }))
-        if (event.tool === 'get_historical_financials')
-          setSteps(s => ({ ...s, financials: 'running' }))
+        const stepKey = event.tool === 'get_stock_overview' ? 'overview' : 'financials'
+        // Reset analysis to pending while a tool is actively running
+        setSteps(s => ({ ...s, [stepKey]: 'running', analysis: 'pending' }))
       } else if (event.type === 'tool_result') {
-        if (event.tool === 'get_stock_overview')
-          setSteps(s => ({ ...s, overview: 'done' }))
-        if (event.tool === 'get_historical_financials')
-          setSteps(s => ({ ...s, financials: 'done', analysis: 'running' }))
+        const stepKey = event.tool === 'get_stock_overview' ? 'overview' : 'financials'
+        // After any tool completes, Claude is working on the next step
+        setSteps(s => ({ ...s, [stepKey]: 'done', analysis: 'running' }))
       } else if (event.type === 'analysis') {
         setSteps(s => ({ ...s, analysis: 'done' }))
         setResult(event.data)

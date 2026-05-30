@@ -23,7 +23,7 @@ async def run_agent(ticker: str, _client=None) -> AsyncGenerator[dict, None]:
         try:
             response = await client.messages.create(
                 model="claude-sonnet-4-20250514",
-                max_tokens=2048,
+                max_tokens=4096,
                 system=SYSTEM_PROMPT,
                 tools=TOOL_SCHEMAS,
                 messages=messages,
