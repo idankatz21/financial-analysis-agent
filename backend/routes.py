@@ -7,8 +7,11 @@ router = APIRouter()
 
 
 async def _event_stream(ticker: str):
-    async for event in run_agent(ticker):
-        yield f"data: {json.dumps(event)}\n\n"
+    try:
+        async for event in run_agent(ticker):
+            yield f"data: {json.dumps(event)}\n\n"
+    except Exception as e:
+        yield f"data: {json.dumps({'type': 'error', 'message': str(e)})}\n\n"
 
 
 @router.get("/analyze/{ticker}")
