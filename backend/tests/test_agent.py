@@ -81,6 +81,19 @@ async def test_agent_yields_error_on_invalid_json_from_claude():
     assert "parse" in events[-1]["message"].lower()
 
 
+async def test_agent_yields_error_on_api_error():
+    import anthropic as anthropic_lib
+    mock_client = MagicMock()
+    error = anthropic_lib.APIConnectionError(request=MagicMock())
+    mock_client.messages.create = AsyncMock(side_effect=error)
+
+    events = [e async for e in run_agent("AAPL", _client=mock_client)]
+
+    assert len(events) == 1
+    assert events[0]["type"] == "error"
+    assert "Claude API error" in events[0]["message"]
+
+
 async def test_agent_accumulates_multiple_tool_results():
     overview_resp = _tool_use_response("get_stock_overview", "id_1", {"ticker": "AAPL"})
     financials_resp = _tool_use_response("get_historical_financials", "id_2", {"ticker": "AAPL"})

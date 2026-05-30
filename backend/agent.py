@@ -1,5 +1,5 @@
 import json
-from typing import AsyncGenerator, Optional
+from typing import AsyncGenerator
 import anthropic
 from tools import TOOL_SCHEMAS, execute_tool, ToolError
 
