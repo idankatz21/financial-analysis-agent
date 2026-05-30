@@ -81,6 +81,21 @@ class TestGetHistoricalFinancials:
             MockTicker.return_value.cashflow = cf
             result = get_historical_financials("AAPL", years=1)
         assert len(result) == 1
+        assert result[0]["year"] == 2023
+
+    def test_fcf_fallback_uses_operating_cf_minus_capex(self):
+        dates = pd.to_datetime(["2023-09-30"])
+        fin = pd.DataFrame({
+            dates[0]: {"Total Revenue": 400e9, "Net Income": 100e9},
+        })
+        cf = pd.DataFrame({
+            dates[0]: {"Operating Cash Flow": 120e9, "Capital Expenditure": -10e9},
+        })
+        with patch("tools.yf.Ticker") as MockTicker:
+            MockTicker.return_value.financials = fin
+            MockTicker.return_value.cashflow = cf
+            result = get_historical_financials("AAPL", years=1)
+        assert result[0]["fcf"] == 110e9  # 120e9 + (-10e9)
 
 
 class TestExecuteTool:
