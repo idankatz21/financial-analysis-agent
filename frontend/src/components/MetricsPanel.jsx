@@ -34,8 +34,10 @@ export default function MetricsPanel({ overview, financials }) {
   return (
     <div className="metrics-panel">
       <h2>
-        {overview?.company}{' '}
-        <span className="sector">({overview?.sector})</span>
+        {overview?.company}
+        {overview?.sector && (
+          <span className="sector"> ({overview.sector})</span>
+        )}
       </h2>
 
       <div className="kpi-row">

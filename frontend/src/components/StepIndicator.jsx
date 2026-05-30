@@ -10,7 +10,7 @@ function stepIcon(status) {
   return '○'
 }
 
-export default function StepIndicator({ steps }) {
+export default function StepIndicator({ steps = {} }) {
   return (
     <div className="step-indicator">
       {STEPS.map(({ key, label }) => (

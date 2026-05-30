@@ -3,11 +3,11 @@ export default function AnalysisPanel({ analysis }) {
     <div className="analysis-panel">
       <div className="analysis-section analysis-section--bull">
         <h3>Bull Case</h3>
-        <p>{analysis.bull_case}</p>
+        <p>{analysis?.bull_case}</p>
       </div>
       <div className="analysis-section analysis-section--bear">
         <h3>Bear Case</h3>
-        <p>{analysis.bear_case}</p>
+        <p>{analysis?.bear_case}</p>
       </div>
       <div className="analysis-section analysis-section--risks">
         <h3>Key Risks</h3>
