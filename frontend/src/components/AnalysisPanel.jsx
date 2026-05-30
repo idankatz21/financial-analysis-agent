@@ -12,7 +12,7 @@ export default function AnalysisPanel({ analysis }) {
       <div className="analysis-section analysis-section--risks">
         <h3>Key Risks</h3>
         <ul>
-          {(analysis.key_risks ?? []).map((risk, i) => (
+          {(analysis?.key_risks ?? []).map((risk, i) => (
             <li key={i}>{risk}</li>
           ))}
         </ul>
